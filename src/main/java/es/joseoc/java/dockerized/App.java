@@ -20,10 +20,7 @@ public class App {
 
 	private static void process() {
 		try {
-			// Read properties and pass it to the worker
 			PropertiesConfiguration config = readConfig("config.properties");
-			
-			// Instantiate the worker and transform and generate result
 			Worker.transformAndGenerateResult(config.getString("input_file"),config.getString("output_folder"));
 		} catch (Exception e) {
 			LOGGER.error("Error processing", e);
