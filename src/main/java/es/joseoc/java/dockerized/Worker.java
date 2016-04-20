@@ -30,12 +30,12 @@ public final class Worker {
 	private final Path outputFolder;
 	private transient String contentTransformed;
 
-	public Worker(String inputFile, String outputFolder) {
+	protected Worker(String inputFile, String outputFolder) {
 		this.inputFile = Paths.get(inputFile);
 		this.outputFolder = Paths.get(outputFolder);
 	}
 
-	public void transformData() {
+	protected void transformData() {
 		checkInputFileValid();
 		String content = readInputFile();
 		contentTransformed = transformContent(content);
@@ -66,7 +66,7 @@ public final class Worker {
 		return WordUtils.swapCase(content);
 	}
 
-	public void generateResult() {
+	protected void generateResult() {
 		checkOutputValidFolder();
 		Path outputFile = buildOutputFilePath();
 		copyToOutput(outputFile);		
@@ -113,4 +113,9 @@ public final class Worker {
 		}
 	}
 
+	public static void transformAndGenerateResult(String inputFile, String outputFolder) {
+		Worker worker = new Worker(inputFile, outputFolder);
+		worker.transformData();
+		worker.generateResult();
+	}
 }

@@ -24,9 +24,7 @@ public class App {
 			PropertiesConfiguration config = readConfig("config.properties");
 			
 			// Instantiate the worker and transform and generate result
-			Worker worker = new Worker(config.getString("input_file"),config.getString("output_folder"));
-			worker.transformData();
-			worker.generateResult();
+			Worker.transformAndGenerateResult(config.getString("input_file"),config.getString("output_folder"));
 		} catch (Exception e) {
 			LOGGER.error("Error processing", e);
 			throw e;
