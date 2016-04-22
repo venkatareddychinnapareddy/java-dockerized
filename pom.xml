@@ -68,47 +68,92 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			
+
 			<!-- Make this jar executable -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
-				  <!-- DO NOT include log4j config file in your Jar -->
-				  <excludes>
-					<exclude>**/log4j2.xml</exclude>
-				  </excludes>
-				  <archive>
-					<manifest>
-						<!-- Jar file entry point -->
-						<addClasspath>true</addClasspath>
-						<mainClass>es.joseoc.java.dockerized.App</mainClass>
-						<classpathPrefix>dependency-jars/</classpathPrefix>
-					</manifest>
-				  </archive>
+					<!-- DO NOT include log4j config file in your Jar -->
+					<excludes>
+						<exclude>**/log4j2.xml</exclude>
+					</excludes>
+					<archive>
+						<manifest>
+							<!-- Jar file entry point -->
+							<addClasspath>true</addClasspath>
+							<mainClass>es.joseoc.java.dockerized.App</mainClass>
+							<classpathPrefix>dependency-jars/</classpathPrefix>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
-			
+
 			<!-- Copy project dependency -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.10</version>
 				<executions>
-				  <execution>
-					<id>copy-dependencies</id>
-					<phase>package</phase>
-					<goals>
-						<goal>copy-dependencies</goal>
-					</goals>
-					<configuration>
-					  <!-- exclude junit, we need runtime dependency only -->
-					  <includeScope>runtime</includeScope>
-					  <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
-					</configuration>
-				  </execution>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<!-- exclude junit, we need runtime dependency only -->
+							<includeScope>runtime</includeScope>
+							<outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+						</configuration>
+					</execution>
 				</executions>
+			</plugin>
+
+			<!-- Docker -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>com.spotify</groupId> -->
+<!-- 				<artifactId>docker-maven-plugin</artifactId> -->
+<!-- 				<version>0.4.5</version> -->
+<!-- 				<configuration> -->
+<!-- 					<imageName>joseoc/java-example-001</imageName> -->
+<!-- 					<baseImage>java</baseImage> -->
+<!--  					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint> -->
+<!-- 					copy the service's jar file from target into the root directory of the image -->
+<!-- 					<resources> -->
+<!-- 						<resource> -->
+<!-- 							<targetPath>/app/java_project/</targetPath> -->
+<!-- 							<directory>${project.build.directory}</directory> -->
+<!-- 							<include>${project.build.finalName}.jar</include> -->
+<!-- 						</resource> -->
+<!-- 					</resources> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
+
+			<!-- Docker -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.5</version>
+				<configuration>
+					<imageName>joseoc/java-example-001</imageName>
+					<dockerDirectory>usingDockerfile</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/app/java_project/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+						
+						<resource>
+							<targetPath>/app/java_project/dependency-jars/</targetPath>
+							<directory>${project.build.directory}/dependency-jars</directory>
+							<include>**/*.jar</include>
+							<exclude>.git</exclude>
+						</resource>
+					</resources>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

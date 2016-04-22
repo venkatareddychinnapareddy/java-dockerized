@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+
+		<RollingFile name="FileLog" fileName="/tmp/docker/data/logs/java-dockerized.log"
+			filePattern="/tmp/docker/data/logs/java-dockerized-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.}:%L [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+		</RollingFile>
+		<Async name="Async">
+			<AppenderRef ref="FileLog" />
+		</Async>
+	</appenders>
+	
+	<loggers>
+		<root level="debug">
+			<appender-ref ref="Console" level="DEBUG" />
+			<appender-ref ref="FileLog" />
+		</root>
+	</loggers>
+</configuration>
