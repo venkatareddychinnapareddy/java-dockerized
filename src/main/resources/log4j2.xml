@@ -22,7 +22,7 @@
 	
 	<loggers>
 		<root level="debug">
-			<appender-ref ref="Console" />
+			<appender-ref ref="Console" level="DEBUG" />
 			<appender-ref ref="FileLog" />
 		</root>
 	</loggers>
