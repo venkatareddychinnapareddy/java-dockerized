@@ -16,10 +16,13 @@ Just by running the docker container the java app will be executed.
 Write the Dockerfile which starts from a java image, then copy the jar of the application as well as the jar dependencies to the directory where the jar expect to find them. Besides copy the input file and the log configuration file. This file is the `Dockerfile` located in the root of the project.
 
 Steps:
+
 1. Generate the jar file for this project and get its dependencies. The pom file is configured to do so, you just need to type: `mvn clean package` and this command will generate the jar in the common path and its dependencies in the folder `dependency-jars` (defined in pom.xml).
+
 1. Create the docker image - enter in the directory where `Dockerfile` lives and type: `docker build -t <user>/<image_name> <path_to_this_file>`. 
 For instance: `docker build -t joseoc/java-example-001 .`
-2. Create a container and run it: `docker run <user>/<image_name>`. 
+
+1. Create a container and run it: `docker run <user>/<image_name>`. 
 For instance: `docker run joseoc/java-example-001`
 
 ### By maven
