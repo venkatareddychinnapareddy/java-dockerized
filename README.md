@@ -41,3 +41,7 @@ The jar files aren't here since they are copied by the maven plugin.
 
 Having this you just have to type the command: 
 `mvn clean package docker:build` and the project is deployed and the docker image created. 
+
+## Testing the docker image
+
+Within the folder *docker-tests* you'll find how the docker image is tested using ruby.

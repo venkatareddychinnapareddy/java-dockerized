@@ -21,6 +21,7 @@ In the `docker-tests` directory run `bundle install` to have the dependencies ru
 Go to the directory `docker-tests` in a terminal and executes `bash docker_build.sh`.
 
 This script: 
+
 1. Removes the image from your local repository
 1. Builds the image using the `Dockerfile` in the root directory of this project
 1. Executes the tests by running `rake spec`
